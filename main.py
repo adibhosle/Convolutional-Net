@@ -2,6 +2,8 @@ import tensorflow as tf
 import keras
 from keras.preprocessing.image import ImageDataGenerator
 
+# Img Augmentation
+
 train_datagen = ImageDataGenerator(
         rescale=1./255,
         shear_range=0.2,
@@ -19,6 +21,8 @@ test_set = test_datagen.flow_from_directory(
         batch_size=32,
         class_mode='binary')
 
+# Model 
+
 cnn = keras.models.Sequential()
 cnn.add(keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu', input_shape=(64, 64, 3)))
 cnn.add(keras.layers.MaxPool2D(pool_size=2, strides=2))
@@ -34,8 +38,11 @@ cnn.add(keras.layers.Flatten())
 cnn.add(keras.layers.Dense(units=128, activation='relu'))
 cnn.add(keras.layers.Dense(units=1, activation='sigmoid'))
 
+# Model Training
+
 cnn.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 cnn.fit(x=training_set, validation_data=test_set, epochs=25)
+
 
 # MODEL PREDICTION
 
